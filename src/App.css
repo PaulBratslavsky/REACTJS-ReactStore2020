@@ -19,6 +19,10 @@ body {
   /* font-family: 'Montserrat', sans-serif; */
 }
 
+a {
+  text-decoration:  none !important;
+}
+
 .text-main {
   color: var(--primaryColor);
 }
@@ -28,4 +32,23 @@ body {
   font-weight: bold;
   letter-spacing: var(--mainSpacing);
   text-transform: capitalize;
+}
+
+.main-link {
+  padding: 0.5rem 1rem;
+  background: var(--primaryColor);
+  color: var(--mainWhite);
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: var(--mainSpacing);
+  outline: 2px solid var(--primaryColor);
+  outline-offset: 4px;
+  transition: var(--mainTransition);
+  border: none;
+}
+
+.main-link:hover { 
+  color: var(--primaryColor);
+  background: var(--mainWhite);
+  outline-color: var(--mainWhite);
 }
