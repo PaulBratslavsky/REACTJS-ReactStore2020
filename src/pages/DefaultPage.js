@@ -15,7 +15,7 @@ export default function DefaultPage() {
         <React.Fragment>
             <Hero title="404" image={defaultBcg} max="true">
                 <h2 className="text-uppercase">PAGE NOT FOUND</h2>
-                <Link style={{margin: '1rem'}} className="main-link" to="/">Check Out The Store</Link>
+                <Link style={{margin: '1rem'}} className="main-link" to="/">Back Home</Link>
             </Hero>
         </React.Fragment>
     )

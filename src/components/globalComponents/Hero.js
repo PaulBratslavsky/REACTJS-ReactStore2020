@@ -39,6 +39,10 @@ const HeroWrapper = styled.div`
         letter-spacing: var(--mainSpacing);
         text-shadow: 5px 2px 8px rgba(0, 0, 0, 0.5);
     }
+
+    @media (max-width: 576px) {
+        .title { font-size: 3rem; }
+    }
 `;
 
 Hero.defaultProps = {

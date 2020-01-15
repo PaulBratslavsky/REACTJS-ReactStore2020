@@ -4,6 +4,9 @@
 import React from 'react';
 import Hero from '../components/globalComponents/Hero';
 import { Link } from 'react-router-dom';
+import Featured from '../components/pageComponents/HomeComponent/Featured';
+import Services from '../components/pageComponents/HomeComponent/Services';
+import Loading from '../components/globalComponents/Loading';
 
 /**************************************************
     HOME PAGE COMPONENT
@@ -18,7 +21,8 @@ export default function HomePage() {
             <Hero title="Awesome Gadgets" max="true">
                 <Link style={{margin: '1rem'}} className="main-link" to="/products">Check Out The Store</Link>
             </Hero>
-            <h1>Home Page</h1>
+            <Services />
+            <Featured />
         </React.Fragment>
     )
 }

@@ -17,7 +17,6 @@ import logo from '../../images/logo.svg'
 export default function Navbar() {
 
     const context = React.useContext(ProductContext);
-    console.log(context);
 
     /**********************************************
         REACT RETURN
@@ -31,7 +30,7 @@ export default function Navbar() {
                     <img src={logo} alt="React Store Logo" />
                     <div className="nav-cart">
                         <FaCartPlus className="nav-icon" onClick={context.handleCart} />
-                        <div className="cart-items">{context.cartItems.length}</div>
+                        <div className="cart-items">{context.cartItemsCount}</div>
                     </div>
                 </div>                
             </NavWrapper>
