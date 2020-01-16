@@ -22,8 +22,6 @@ export default function Featured() {
 
     const { dataIsLoading, featuredProducts } = React.useContext(ProductContext);
 
-    console.log(featuredProducts, "From Featured");
-
     const showFeaturedProducts = (products) => ( 
             <div className="row">
                 { products.map( product =>  <Product key={product.id} product={product}/> ) }
@@ -34,12 +32,16 @@ export default function Featured() {
         <section className="py-5">
             <div className="container">
                 <Title title="featured products" center="true"/>
-                {  dataIsLoading ? <Loading /> : showFeaturedProducts(featuredProducts)}
+                <div className="my-4">
+                    {  dataIsLoading  ? <Loading /> : showFeaturedProducts(featuredProducts)}
+                    
+                    { !dataIsLoading &&
+                        <div className="row d-flex justify-content-center mt-4">
+                            <Link className="main-link" to="/products">Sea All Products</Link>
+                        </div>
+                    } 
+                </div>
             </div>
         </section>
     )
 }
-
-/**************************************************
-    FEATURED JS STYLES
-**************************************************/

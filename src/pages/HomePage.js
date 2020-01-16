@@ -6,7 +6,6 @@ import Hero from '../components/globalComponents/Hero';
 import { Link } from 'react-router-dom';
 import Featured from '../components/pageComponents/HomeComponent/Featured';
 import Services from '../components/pageComponents/HomeComponent/Services';
-import Loading from '../components/globalComponents/Loading';
 
 /**************************************************
     HOME PAGE COMPONENT
@@ -26,8 +25,3 @@ export default function HomePage() {
         </React.Fragment>
     )
 }
-
-
-/**************************************************
-    HOME PAGE JS STYLES
-**************************************************/
