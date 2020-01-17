@@ -27,7 +27,6 @@ export default function Products() {
                 <div className="py-4">
                     { dataIsLoading ? <Loading /> : showAllProducts(filteredProducts) }
                 </div>
-                HELLO FROM PRODUCTS
             </div>
         </section>
     )

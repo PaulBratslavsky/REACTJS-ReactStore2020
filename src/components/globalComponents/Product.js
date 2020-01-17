@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaSearch, FaCartPlus } from 'react-icons/fa';
 import { ProductContext} from '../../context';
+import { showMoney } from '../../HelperFunctions/showMoney';
 
 /**************************************************
     PRODUCT COMPONENT
@@ -14,11 +15,6 @@ export default function Product({product}) {
 
     const {addToCart, setSingleProduct } = React.useContext(ProductContext);
 
-    const showMoney = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: 2
-    })
 
     return (
         <ProductWrapper className="col-10 mx-auto col-sm-8 col-md-6 col-lg-4 my-3">

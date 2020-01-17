@@ -75,94 +75,6 @@ class ProductProvider extends Component {
     }
 
     /**********************************************
-        GLOBAL METHODS
-    **********************************************/
-
-    // HANDLE SIDEBAR TOGGLE
-    handleSidebar = () => {
-        this.setState( prevState => ({ sidebarOpen: !prevState.sidebarOpen }) );
-        if ( this.state.cartOpen ) {
-            this.setState( () => ({ cartOpen: false }) );
-        }
-    }
-
-    // HANDLE CART TOGGLE
-    handleCart = () => {
-        this.setState( prevState => ({ cartOpen: !prevState.cartOpen }) );
-        if ( this.state.sidebarOpen ) {
-            this.setState( () => ({ sidebarOpen: false }) );
-        }
-    }
-
-    handleCartClose = () => {
-        this.setState( () => ({ cartOpen: false }) );
-    }
-
-    handleCartOpen = () => {
-        this.setState( () => ({ cartOpen: true }) );
-    }
-
-    // addToCart 
-    addToCart = (itemId) => {
-
-        // Get current cart items from state
-        let tempCart = [ ...this.state.cartItems ];
-
-        // Get list of products
-        let tempProducts = [...this.state.storeProducts];
-
-        // Check if item we are adding already exists in cart
-        let tempItem = tempCart.find( item => item.id === itemId );
-
-        // Check if found item is undefined if so add the current Item
-        if (!tempItem) {
-
-            // Find seleceted item in product list
-            tempItem = tempProducts.find( item => item.id === itemId );
-
-            // Set total price 
-            let total = tempItem.price;
-
-            // Create new Item object to add to cart
-            let cartItem = { ...tempItem, count: 1, total }
-            
-            // Add previous items and new item to cart
-            tempCart = [ ...tempCart, cartItem ]
-            console.log(cartItem, "Item added to cart");
-        } else {
-            // new item allready in cart so inclrease count by 1
-            tempItem.count++;
-
-            // Increase total based on quantety
-            tempItem.total = tempItem.count * tempItem.price;
-            // Parce to float 
-            tempItem.total = parseFloat(tempItem.total.toFixed(2));
-        }
-
-        // Set Items to state and fire additional methods
-        this.setState(() => ({ cartItems: tempCart }), () => {
-            // Call methods after state change
-            this.addTotals();
-            this.syncStorage();
-            this.handleCartOpen();
-        });
-
-        console.log(tempCart, "Current Items in cart");
-        console.log('add to cart', itemId);
-    }
-
-    // Set Single Product
-    setSingleProduct = (itemId) => {
-
-        // Get selected product listing
-        let singleProduct = this.state.storeProducts.find( item => item.id === itemId );
-        
-        // Set single listing to local state
-        localStorage.setItem('singleProduct', JSON.stringify(singleProduct));
-
-        this.setState({ singleProduct: { ...singleProduct }, dataIsLoading: false });
-    }
-    /**********************************************
         PRIVATE METHODS
     **********************************************/
     
@@ -233,6 +145,200 @@ class ProductProvider extends Component {
     }
 
     /**********************************************
+        PUBLIC METHODS
+    **********************************************/
+
+    /**********************************************
+        SIDE NAVIGATION TOGGLE METHOD PUBLIC
+    **********************************************/
+    handleSidebar = () => {
+        this.setState( prevState => ({ sidebarOpen: !prevState.sidebarOpen }) );
+        if ( this.state.cartOpen ) {
+            this.setState( () => ({ cartOpen: false }) );
+        }
+    }
+
+    /**********************************************
+        SIDE CART NAVIGATION METHODS PUBLIC
+    **********************************************/
+    handleCart = () => {
+        this.setState( prevState => ({ cartOpen: !prevState.cartOpen }) );
+        if ( this.state.sidebarOpen ) {
+            this.setState( () => ({ sidebarOpen: false }) );
+        }
+    }
+
+    handleCartClose = () => {
+        this.setState( () => ({ cartOpen: false }) );
+    }
+
+    handleCartOpen = () => {
+        this.setState( () => ({ cartOpen: true }) );
+    }
+
+    /**********************************************
+        ADD TO CART METHOD PUBLIC
+    **********************************************/
+
+    addToCart = (itemId) => {
+
+        // Get current cart items from state
+        let tempCart = [ ...this.state.cartItems ];
+
+        // Get list of products
+        let tempProducts = [...this.state.storeProducts];
+
+        // Check if item we are adding already exists in cart
+        let tempItem = tempCart.find( item => item.id === itemId );
+
+        // Check if found item is undefined if so add the current Item
+        if (!tempItem) {
+
+            // Find seleceted item in product list
+            tempItem = tempProducts.find( item => item.id === itemId );
+
+            // Set total price 
+            let total = tempItem.price;
+
+            // Create new Item object to add to cart
+            let cartItem = { ...tempItem, count: 1, total };
+            
+            // Add previous items and new item to cart
+            tempCart = [ ...tempCart, cartItem ];
+
+        } else {
+            // new item allready in cart so inclrease count by 1
+            tempItem.count++;
+
+            // Increase total based on quantety
+            tempItem.total = tempItem.count * tempItem.price;
+            // Parce to float 
+            tempItem.total = parseFloat(tempItem.total.toFixed(2));
+        }
+
+        // Set Items to state and fire additional methods
+        this.setState(() => ({ cartItems: tempCart }), () => {
+            // Call methods after state change
+            this.addTotals();
+            this.syncStorage();
+            this.handleCartOpen();
+        });
+    }
+
+    /**********************************************
+        SELECT SINGLE PRODUCT METHOD PUBLIC
+    **********************************************/
+    setSingleProduct = (itemId) => {
+
+        // Get selected product listing
+        let singleProduct = this.state.storeProducts.find( item => item.id === itemId );
+        
+        // Set single listing to local state
+        localStorage.setItem('singleProduct', JSON.stringify(singleProduct));
+
+        this.setState({ singleProduct: { ...singleProduct }, dataIsLoading: false });
+    }
+
+    /**********************************************
+        CART PAGE  METHODS PUBLIC
+    **********************************************/
+
+    incrementCartItem = (itemId) => {
+
+        // Set all cart items to temp
+        let tempCart = [ ...this.state.cartItems ];
+
+        // using temp cart works because when you opdate the 
+        // object via a find you are actually updating the value
+        // in temp cart since you are referencing the object
+        
+        // Find selected item
+        const selectedItem = tempCart.find( item => item.id === itemId );
+        
+        // update count
+        selectedItem.count = selectedItem.count + 1;
+
+        // update total item X price
+        selectedItem.total = selectedItem.count * selectedItem.price; 
+
+        // Format to two decimals - to fixed returns string so we need to parse it
+        selectedItem.total = parseFloat(selectedItem.total.toFixed(2));
+
+        // Update new value in state
+        this.setState(() => {
+            return { cartItems: [ ...tempCart] }
+        }, () => {
+            this.addTotals();
+            this.syncStorage();
+        });
+        
+    }
+
+    decrementCartItem = (itemId) => {
+
+        // set temp cart
+        let tempCart = [ ...this.state.cartItems ];
+
+        // Find Item to update
+        const selectedItem = tempCart.find( item => item.id === itemId );
+
+        // Change count
+        selectedItem.count = selectedItem.count - 1;
+
+
+        // Check if item count is zero - if so delete 
+        if  (selectedItem.count === 0) {
+        
+            this.removeCartItem(itemId);
+
+        } else {
+
+            // Change cost
+            selectedItem.total = selectedItem.count * selectedItem.price;
+
+            // Format to two decimals - to fixed returns string so we need to parse it
+            selectedItem.total = parseFloat(selectedItem.total.toFixed(2));
+
+            // Update State
+            this.setState(() => {
+                return {
+                    cartItems: [ ...tempCart ]
+                }
+            }, () => {
+                this.addTotals();
+                this.syncStorage();
+            });
+        }
+    }
+
+    removeCartItem = (itemId) => {
+
+        let tempCart = [ ...this.state.cartItems ];
+
+        const updatedCart = tempCart.filter( item => item.id !== itemId );
+
+        this.setState(() => {
+            return {cartItems: [ ...updatedCart ] }
+        }, () => {
+            this.addTotals();
+            this.syncStorage();
+        });
+
+        console.log(itemId, 'from remove cart item');
+    }
+
+    clearCart = () => {
+        this.setState(() => {
+            return { cartItems: [] }
+        }, () => {
+            this.addTotals();
+            this.syncStorage();
+        });
+    }
+
+    
+
+    /**********************************************
         RENDER METHODS
     **********************************************/
 
@@ -247,6 +353,10 @@ class ProductProvider extends Component {
                 handleCartOpen: this.handleCartOpen,
                 addToCart: this.addToCart,
                 setSingleProduct: this.setSingleProduct,
+                incrementCartItem: this.incrementCartItem,
+                decrementCartItem: this.decrementCartItem,
+                removeCartItem: this.removeCartItem,
+                clearCart: this.clearCart,
             }} >
                 {this.props.children}
             </ProductContext.Provider>

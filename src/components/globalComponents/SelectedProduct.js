@@ -14,7 +14,7 @@ function SelectedProduct({singleProduct,addToCart, history}) {
     });
 
     const { company, description, id, price, title, image } = singleProduct;
-
+    console.log()
     const showMoney = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',

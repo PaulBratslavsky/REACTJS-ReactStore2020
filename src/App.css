@@ -52,3 +52,7 @@ a {
   background: var(--mainWhite);
   outline-color: var(--mainWhite);
 }
+
+.cart-icon {
+  cursor: pointer;
+}

@@ -12,7 +12,6 @@ import { ProductContext } from '../../../context';
 import Product from '../../globalComponents/Product';
 import Title from '../../globalComponents/Title';
 import Loading from '../../globalComponents/Loading';
-import { items } from '../../../context/productData';
 
 
 /**************************************************
