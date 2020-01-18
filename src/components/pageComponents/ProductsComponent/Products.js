@@ -6,6 +6,7 @@ import { ProductContext } from '../../../context';
 import Title from '../../globalComponents/Title';
 import Product from '../../globalComponents/Product';
 import Loading from '../../globalComponents/Loading';
+import ProductFilter from './ProductFilter';
 
 /**************************************************
     PRODUCTS PAGE HELPER COMPONENT 
@@ -24,6 +25,7 @@ export default function Products() {
         <section className="py-5">
             <div className="container">
                 <Title title="Our Products" center="true"/>
+                <ProductFilter />
                 <div className="py-4">
                     { dataIsLoading ? <Loading /> : showAllProducts(filteredProducts) }
                 </div>

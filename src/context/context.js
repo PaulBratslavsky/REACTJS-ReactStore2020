@@ -31,6 +31,12 @@ class ProductProvider extends Component {
         cartSubTotal: 0,
         cartTax: 0,
         cartTotal: 0,
+        search: "",
+        searchPrice: 0,
+        minSearchPrice: 0,
+        maxSearchPrice: 0,
+        searchShipping: false,
+        searchCompany: 'all',
     }
 
     /**********************************************
@@ -61,6 +67,9 @@ class ProductProvider extends Component {
         })
 
         let featuredProducts = storeProducts.filter( item => item.featured === true );
+
+        // Get max price
+        let maxSearchPrice = Math.max(...storeProducts.map( item => item.price));
         
         this.setState({ 
             storeProducts, 
@@ -69,6 +78,8 @@ class ProductProvider extends Component {
             dataIsLoading: false,
             cartItems: this.getStorageCart(), 
             singleProduct: this.getStorageProduct(),
+            searchPrice: maxSearchPrice,
+            maxSearchPrice: maxSearchPrice
         },() => {
             this.addTotals();
         });
@@ -335,8 +346,16 @@ class ProductProvider extends Component {
             this.syncStorage();
         });
     }
+    /**********************************************
+        HANDLE FILTERING METHODS
+    **********************************************/
+    handleChange = (e) => {
+        console.log(e.target.name, e.target.value);
+    }
 
-    
+    sortData = () => {
+        console.log('sort data');
+    }
 
     /**********************************************
         RENDER METHODS
@@ -357,6 +376,7 @@ class ProductProvider extends Component {
                 decrementCartItem: this.decrementCartItem,
                 removeCartItem: this.removeCartItem,
                 clearCart: this.clearCart,
+                handleChange: this.handleChange,
             }} >
                 {this.props.children}
             </ProductContext.Provider>
