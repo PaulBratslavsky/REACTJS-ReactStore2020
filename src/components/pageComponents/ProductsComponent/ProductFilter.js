@@ -12,6 +12,7 @@ import { ProductContext } from '../../../context';
 export default function ProductFilter() {
 
     const { 
+        storeProducts,
         filteredProducts, 
         dataIsLoading,  
         search,
@@ -23,7 +24,27 @@ export default function ProductFilter() {
         handleChange
     } = React.useContext(ProductContext);
 
+    /**************************************************
+        CREATE OPTIONS FOR THE SELECT INPUT 
+    **************************************************/
 
+    // Creates set with unique values - no duplicates
+    let companies = new Set();
+
+    companies.add('all');
+
+    for ( let product in storeProducts ) {
+        companies.add(storeProducts[product]["company"]); 
+    }
+
+    // change set to array
+    companies = [ ...companies ];
+
+    function showCompanies(companies) {
+        return companies.map( (item, index) => (
+            <option key={index} value={item} >{item}</option>
+        ))
+    };
 
     /**********************************************
         RETURN JSX
@@ -57,9 +78,7 @@ export default function ProductFilter() {
                                 id="searchCompany" 
                                 className="filtered-items"
                             >
-                                <option value="All">All</option>
-                                <option value="Samsung">Samsung</option>
-                                <option value="Acer">Acer</option>
+                                { showCompanies(companies) }
                             </select>      
                         </div>
 
@@ -81,8 +100,7 @@ export default function ProductFilter() {
                             <label htmlFor="searchShipping" className="mx-2">Free Shipping</label>
                             <input
                                 type="checkbox"
-                                value={searchShipping && true}
-                                defaultChecked={searchShipping}
+                                checked={searchShipping && true}
                                 onChange={handleChange}
                                 name="searchShipping" 
                                 id="searchShipping" 

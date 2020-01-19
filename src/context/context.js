@@ -350,11 +350,63 @@ class ProductProvider extends Component {
         HANDLE FILTERING METHODS
     **********************************************/
     handleChange = (e) => {
-        console.log(e.target.name, e.target.value);
+        const name = e.target.name;
+        const value = e.target.type === "checkbox" 
+            ? e.target.checked 
+            : e.target.value;
+ 
+
+        // console.log(name, value);
+        this.setState({[name]: value}, this.sortData)
     }
 
     sortData = () => {
-        console.log('sort data');
+        const { storeProducts, search, searchPrice, searchShipping, searchCompany } = this.state;
+
+        let tempProducts = [...storeProducts];
+        // console.log(tempProducts);
+
+        // Change string to int
+        let tempPrice = parseInt(searchPrice);
+
+        // Filtering based on price
+        tempProducts = tempProducts.filter( item => item.price <= tempPrice );
+
+        // Filtering based on company
+        if (searchCompany !== "all") {
+            tempProducts = tempProducts.filter( item => item.company === searchCompany );
+        }
+        
+        // Filter by free shipping
+        if ( searchShipping ) {
+            tempProducts = tempProducts.filter( item => item.freeShipping === true );
+        }
+        
+        // Filter by search 
+        if (search !== 0) {
+
+            tempProducts = tempProducts.filter( item => {
+
+                let tempSearch = search.toLowerCase();
+                let tempTitle = item.title.toLowerCase();
+                let tempDescription = item.description.toLowerCase();
+
+                if ( tempTitle.includes(tempSearch) || tempDescription.includes(tempSearch)) {
+                    return item;
+                }
+
+                return undefined;
+    
+            });
+
+        }
+
+        this.setState({
+            filteredProducts: [...tempProducts]
+        });
+        //console.log('sorting data', search, searchPrice, searchShipping, searchCompany );
+
+
     }
 
     /**********************************************
