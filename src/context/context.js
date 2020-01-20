@@ -5,8 +5,8 @@ import React, { Component } from "react";
 
 import { linkData } from './linkData';
 import { socialData } from './socialData';
-// import { items } from './productData';
-import { client } from './contentful';
+import { items } from './productData';
+// import { client } from './contentful';
 
 
 const ProductContext = React.createContext();
@@ -45,22 +45,22 @@ class ProductProvider extends Component {
     **********************************************/
     componentDidMount() {
 
-        // setTimeout( () => {
-        //     this.someAsynFunction(items)
-        //         .then( response => this.setProducts(response) )
-        //         .catch( err => console.error(err) )
-        // }, 2000);
+        setTimeout( () => {
+            this.someAsynFunction(items)
+                .then( response => this.setProducts(response) )
+                .catch( err => console.error(err) )
+        }, 2000);
 
-        client.getEntries({content_type: "theStore"})
-            .then( response => this.setProducts(response.items) )
-            .catch( err => console.error(err) )
+        // client.getEntries({content_type: "theStore"})
+        //     .then( response => this.setProducts(response.items) )
+        //     .catch( err => console.error(err) )
         
     }
 
     /**********************************************
         FETCH DATA
     **********************************************/
-    // someAsynFunction = (items) => new Promise((resolve, reject) => items ? resolve(items) : reject("ERROR") );
+    someAsynFunction = (items) => new Promise((resolve, reject) => items ? resolve(items) : reject("ERROR") );
 
     setProducts = (products) => {
         

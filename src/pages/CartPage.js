@@ -11,7 +11,6 @@ import storeBcg from '../images/storeBcg.jpeg';
 **************************************************/
 export default function CartPage() {
 
-
     return (
         <React.Fragment>
             <Hero image={storeBcg}/>

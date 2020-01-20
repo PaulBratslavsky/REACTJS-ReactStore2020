@@ -1,8 +1,11 @@
 import React from 'react';
 import { ProductContext } from '../../../context';
 import { showMoney } from '../../../HelperFunctions/showMoney';
+import MyApp from './PayPalBtn';
 
-export default function CartTotals() {
+import { withRouter } from 'react-router-dom';
+
+function CartTotals({history}) {
 
     const { clearCart, cartSubTotal, cartTax, cartTotal } = React.useContext(ProductContext);
 
@@ -20,6 +23,7 @@ export default function CartTotals() {
                         <div className="d-flex justify-content-between align-items-center">
                             <h3> Total</h3><h3 className="text-primary">{showMoney.format(cartTotal)}</h3>
                         </div>
+                        {/* <MyApp history={history} cartTotal={cartTotal} clearCart={clearCart}/> */}
                     </div>
                     <button className="btn btn-outline-danger text-capitalize mb-4" onClick={clearCart}>Clear Cart</button>
 
@@ -28,3 +32,5 @@ export default function CartTotals() {
         </div>
     )
 }
+
+export default withRouter(CartTotals);
