@@ -5,7 +5,8 @@ import React, { Component } from "react";
 
 import { linkData } from './linkData';
 import { socialData } from './socialData';
-import { items } from './productData';
+// import { items } from './productData';
+import { client } from './contentful';
 
 
 const ProductContext = React.createContext();
@@ -44,18 +45,22 @@ class ProductProvider extends Component {
     **********************************************/
     componentDidMount() {
 
-        setTimeout( () => {
-            this.someAsynFunction(items)
-                .then( response => this.setProducts(response) )
-                .catch( err => console.error(err) )
-        }, 2000);
+        // setTimeout( () => {
+        //     this.someAsynFunction(items)
+        //         .then( response => this.setProducts(response) )
+        //         .catch( err => console.error(err) )
+        // }, 2000);
+
+        client.getEntries({content_type: "theStore"})
+            .then( response => this.setProducts(response.items) )
+            .catch( err => console.error(err) )
         
     }
 
     /**********************************************
         FETCH DATA
     **********************************************/
-    someAsynFunction = (items) => new Promise((resolve, reject) => items ? resolve(items) : reject("ERROR") );
+    // someAsynFunction = (items) => new Promise((resolve, reject) => items ? resolve(items) : reject("ERROR") );
 
     setProducts = (products) => {
         
@@ -356,7 +361,7 @@ class ProductProvider extends Component {
             : e.target.value;
  
 
-        // console.log(name, value);
+        console.log(name, value, this.state.searchShipping);
         this.setState({[name]: value}, this.sortData)
     }
 
@@ -364,7 +369,7 @@ class ProductProvider extends Component {
         const { storeProducts, search, searchPrice, searchShipping, searchCompany } = this.state;
 
         let tempProducts = [...storeProducts];
-        // console.log(tempProducts);
+        console.log(tempProducts);
 
         // Change string to int
         let tempPrice = parseInt(searchPrice);
@@ -378,8 +383,11 @@ class ProductProvider extends Component {
         }
         
         // Filter by free shipping
-        if ( searchShipping ) {
+        if ( searchShipping === true) {
+            console.log(searchShipping, "SHIPPING TRUE", tempProducts);
             tempProducts = tempProducts.filter( item => item.freeShipping === true );
+            console.log(searchShipping, "SHIPPING TRUE", tempProducts);
+
         }
         
         // Filter by search 
@@ -401,9 +409,7 @@ class ProductProvider extends Component {
 
         }
 
-        this.setState({
-            filteredProducts: [...tempProducts]
-        });
+        this.setState( () => ({ filteredProducts: [...tempProducts] }));
         //console.log('sorting data', search, searchPrice, searchShipping, searchCompany );
 
 
